@@ -139,7 +139,7 @@ namespace TestsGenerator.QuestionModule
             ValidationResult validationResult = alternativeValidator.Validate(alternative);
 
             List<Alternative> alternativas = ListAlternatives.Items.Cast<Alternative>().ToList();
-            List<bool> corretas = alternativas.Select(x => x.IsCorrect).ToList();
+            List<Alternative> corretas = alternativas.Where(x => x.IsCorrect == true).ToList();
 
             if (corretas.Count >= 1 && ChbIsCorret.Checked == true)
             {

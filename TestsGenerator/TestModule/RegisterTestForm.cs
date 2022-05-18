@@ -28,7 +28,15 @@ namespace TestsGenerator.TestModule
         {
             get { return test; }
 
-            set { test = value; }
+            set 
+            { 
+                test = value;
+                TxbTitle.Text = Test.Title;
+                CbxDiscipline.SelectedItem = test.Discipline;
+                CbxGrade.SelectedItem = test.Grade;
+                CbxBimester.SelectedItem = test.Bimester;
+                CbxMateria.SelectedItem = test.Materia;
+            }
         }
 
         public Func<Test, ValidationResult> SaveRecord { get; set; }

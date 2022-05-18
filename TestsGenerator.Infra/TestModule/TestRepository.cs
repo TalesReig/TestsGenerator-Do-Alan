@@ -30,6 +30,8 @@ namespace TestsGenerator.Infra.TestModule
             return new TestValidator();
         }
 
+
+
         public override ValidationResult Insert(Test t)
         {
             List<Test> registros = GetRegisters();
@@ -70,6 +72,30 @@ namespace TestsGenerator.Infra.TestModule
                     if (x.Id == t.Id)
                         x.Update(t);
                 });
+            }
+
+            return validationResult;
+        }
+
+        public ValidationResult Duplicate(Test t)
+        {
+            AbstractValidator<Test> validator = GetValidator();
+
+            ValidationResult validationResult = validator.Validate(t);
+
+            if (validationResult.IsValid == false)
+                return validationResult;
+
+            List<Test> registers = GetRegisters();
+
+            bool existsName = registers.Select(x => x.Title).Contains(t.Title, StringComparer.OrdinalIgnoreCase);
+
+            if (existsName && t.Id == 0)
+                validationResult.Errors.Add(new ValidationFailure("", "Um teste com este título já está cadastrado."));
+
+            if (validationResult.IsValid)
+            {
+                return base.Insert(t);
             }
 
             return validationResult;

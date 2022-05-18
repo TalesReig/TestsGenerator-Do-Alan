@@ -60,6 +60,30 @@ namespace TestsGenerator.TestModule
             }
         }
 
+        public void Duplicate()
+        {
+            Test selectedTest = GetTest();
+
+            if (selectedTest == null)
+            {
+                MessageBox.Show("Selecione um teste primeiro.", "Duplicando Teste", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            RegisterTestForm screen = new(_disciplineRepository.GetRegisters(), _materiaRepository.GetRegisters(), _questionRepository.GetRegisters());
+
+            screen.Text = "Duplicando Teste";
+
+            screen.Test = selectedTest.Clone();
+
+            screen.SaveRecord = _testRepository.Duplicate;
+
+            DialogResult dialogResult = screen.ShowDialog();
+
+            if (dialogResult == DialogResult.OK)
+                LoadTests();
+        }
+
         public override UserControl GetControl()
         {
             LoadTests();
@@ -83,19 +107,6 @@ namespace TestsGenerator.TestModule
 
             if (dialogResult == DialogResult.OK)
                 LoadTests();
-        }
-
-        public void Duplicate()
-        {
-            Test selectedTest = GetTest();
-
-            if (selectedTest == null)
-            {
-                MessageBox.Show("Selecione um teste primeiro.", "Duplicar Teste", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            // to-do
         }
 
         private void LoadTests()
