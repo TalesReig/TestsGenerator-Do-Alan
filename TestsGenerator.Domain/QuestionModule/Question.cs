@@ -27,6 +27,11 @@ namespace TestsGenerator.Domain.QuestionModule
         {
             return $"{Description}";
         }
+
+        public Question Clone()
+        {
+            return MemberwiseClone() as Question;
+        }
     }
 
     public class Alternative

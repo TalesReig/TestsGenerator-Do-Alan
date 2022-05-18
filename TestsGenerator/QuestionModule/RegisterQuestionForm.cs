@@ -11,6 +11,7 @@ namespace TestsGenerator.QuestionModule
     {
         private Question question;
         private readonly List<Materia> _materias;
+        public int corretas;
 
         public RegisterQuestionForm(List<Discipline> disciplines, List<Materia> materias)
         {
@@ -53,7 +54,7 @@ namespace TestsGenerator.QuestionModule
 
             foreach (Alternative item in ListAlternatives.Items)
             {
-                if (!question.Alternatives.Contains(item))
+                if (question.Alternatives.Contains(item))
                     return;
 
                 question.Alternatives.Add(item);
@@ -137,6 +138,14 @@ namespace TestsGenerator.QuestionModule
 
             ValidationResult validationResult = alternativeValidator.Validate(alternative);
 
+            List<Alternative> alternativas = ListAlternatives.Items.Cast<Alternative>().ToList();
+            List<bool> corretas = alternativas.Select(x => x.IsCorrect).ToList();
+
+            if (corretas.Count >= 1 && ChbIsCorret.Checked == true)
+            {
+                validationResult.Errors.Add(new ValidationFailure("", "A questão não deve ter mais do que uma questão correta"));
+            }
+
             if (validationResult.IsValid == false)
             {
                 MessageBox.Show(validationResult.ToString("\n"), Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -155,6 +164,32 @@ namespace TestsGenerator.QuestionModule
                 selectedItem.Letter = TxbLetter.Text;
                 selectedItem.IsCorrect = ChbIsCorret.Checked;
                 selectedItem.Description = TxbDescription.Text;
+
+                AlternativeValidator alternativeValidator = new();
+
+                ValidationResult validationResult = alternativeValidator.Validate(selectedItem);
+
+                List<Alternative> alternativas = ListAlternatives.Items.Cast<Alternative>().ToList();
+
+                List<Alternative> corretas = alternativas.Where(x => x.IsCorrect == true).ToList();
+
+                if (corretas.Count > 1 && ChbIsCorret.Checked == true)
+                {
+                    validationResult.Errors.Add(new ValidationFailure("", "A questão não deve ter mais do que uma questão correta"));
+                }
+
+                if (validationResult.IsValid == false)
+                {
+                    ChbIsCorret.Checked = false;
+                    selectedItem.IsCorrect = ChbIsCorret.Checked;
+                    alternativas.Clear();
+                    corretas.Clear();
+                    MessageBox.Show(validationResult.ToString("\n"), Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    return;
+                }
+
+                alternativas.Clear();
+                corretas.Clear();
 
                 int index = ListAlternatives.SelectedIndex;
 

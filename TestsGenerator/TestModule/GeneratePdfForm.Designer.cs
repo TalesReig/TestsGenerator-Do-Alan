@@ -98,6 +98,7 @@
             // 
             // TxbPath
             // 
+            this.TxbPath.Enabled = false;
             this.TxbPath.Location = new System.Drawing.Point(82, 20);
             this.TxbPath.Name = "TxbPath";
             this.TxbPath.Size = new System.Drawing.Size(200, 23);

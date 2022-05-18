@@ -1,4 +1,6 @@
-﻿using TestsGenerator.Domain.QuestionModule;
+﻿using FluentValidation.Results;
+using iText.Layout.Element;
+using TestsGenerator.Domain.QuestionModule;
 using TestsGenerator.Infra.DisciplineModule;
 using TestsGenerator.Infra.MateriaModule;
 using TestsGenerator.Infra.QuestionModule;
@@ -49,7 +51,8 @@ namespace TestsGenerator.QuestionModule
 
             screen.Text = "Editando Questão";
 
-            screen.Question = selectedQuestion;
+            screen.Question = selectedQuestion.Clone();
+
             screen.SaveRecord = _questionRepository.Update;
 
             DialogResult dialogResult = screen.ShowDialog();

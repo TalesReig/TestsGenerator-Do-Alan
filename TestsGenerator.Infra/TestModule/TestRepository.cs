@@ -30,6 +30,23 @@ namespace TestsGenerator.Infra.TestModule
             return new TestValidator();
         }
 
+        public override ValidationResult Insert(Test t)
+        {
+            List<Test> registros = GetRegisters();
+            bool testJaCadastrado = registros.Any(x => x.Title.ToUpper() == t.Title.ToUpper());
+
+            if (testJaCadastrado)
+            {
+                ValidationResult validadorNome = new ValidationResult();
+
+                validadorNome.Errors.Add(new ValidationFailure("", "Registro não inserido, teste já cadastrada."));
+
+                return validadorNome;
+            }
+
+            return base.Insert(t);
+        }
+
         public override ValidationResult Update(Test t)
         {
             AbstractValidator<Test> validator = GetValidator();

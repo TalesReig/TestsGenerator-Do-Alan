@@ -46,7 +46,7 @@ namespace TestsGenerator.MateriaModule
 
             screen.Text = "Editando Matéria";
 
-            screen.Materia = selectedMateria;
+            screen.Materia = selectedMateria.Clone();
             screen.SaveRecord = _materiaRepository.Update;
 
             DialogResult dialogResult = screen.ShowDialog();

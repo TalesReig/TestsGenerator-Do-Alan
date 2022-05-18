@@ -17,5 +17,10 @@ namespace TestsGenerator.Domain.MateriaModule
             Bimester = t.Bimester;
             Discipline = t.Discipline;
         }
+
+        public Materia? Clone()
+        {
+            return MemberwiseClone() as Materia;
+        }
     }
 }

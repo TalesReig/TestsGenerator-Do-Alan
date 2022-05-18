@@ -57,6 +57,11 @@ namespace TestsGenerator.TestModule
 
             ValidationResult validationResult = SaveRecord(test);
 
+            if(ClbxAvailableQuestions.CheckedItems.Count == 0)
+            {
+                validationResult.Errors.Add(new ValidationFailure("", "Você deve selecionar no minimo uma questão"));
+            }
+
             if (validationResult.IsValid == false)
             {
                 MessageBox.Show(validationResult.ToString("\n"), Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);

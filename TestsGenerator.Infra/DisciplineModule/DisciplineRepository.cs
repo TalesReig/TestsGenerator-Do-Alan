@@ -52,7 +52,6 @@ namespace TestsGenerator.Infra.DisciplineModule
                 List<Discipline> registers = GetRegisters();
 
                 bool existsName = _dataContext.Disciplines.Any(x => x.Name.ToUpper() == t.Name.ToUpper());
-                //bool existsName = registers.Select(x => x.Name).Contains(t.Name, StringComparer.OrdinalIgnoreCase);
 
                 if (existsName)
                     validationResult.Errors.Add(new ValidationFailure("", "Nome já está cadastrado"));

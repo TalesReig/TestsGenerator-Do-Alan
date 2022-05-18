@@ -27,12 +27,12 @@ namespace TestsGenerator.Domain.QuestionModule
                 .WithMessage("Campo 'Enunciado' é obrigatório.");
 
             RuleFor(x => x.Alternatives)
-                .NotEmpty()
-                .WithMessage("É necessário ter ao menos uma alternativa adicionada.");
-RuleFor(x => x.Alternatives.Any(y => y.IsCorrect))
+                .Must(l => l.Count >= 2)
+                .WithMessage("É necessário ter ao menos duas alternativas adicionadas.");
+
+            RuleFor(x => x.Alternatives.Any(y => y.IsCorrect))
                 .NotEmpty()
                 .WithMessage("Ao menos uma alternativa deve ser definida como correta.");
-            
         }
     }
 

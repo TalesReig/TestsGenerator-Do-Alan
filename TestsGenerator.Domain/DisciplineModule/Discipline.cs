@@ -11,9 +11,9 @@ namespace TestsGenerator.Domain.DisciplineModule
             Name = t.Name;
         }
 
-        public Discipline Clone()
+        public Discipline? Clone()
         {
-            return (Discipline)MemberwiseClone();
+            return MemberwiseClone() as Discipline;
         }
     }
 }

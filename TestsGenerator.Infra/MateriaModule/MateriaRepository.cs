@@ -27,15 +27,22 @@ namespace TestsGenerator.Infra.MateriaModule
 
         public override ValidationResult Insert(Materia t)
         {
-            bool nomeJaCadastrado = _dataContext.Materias.Any(x => x.Name.ToUpper() == t.Name.ToUpper());
+            List<Materia> registros = GetRegisters();
+            bool nameJaCadastrado = registros.Any(x => x.Name.ToUpper() == t.Name.ToUpper());
 
-            if (nomeJaCadastrado)
+            if (nameJaCadastrado)
             {
-                ValidationResult validadorNome = new ValidationResult();
+                bool gradeJaCadastrado = registros.Any(x => x.Grade.ToUpper() == t.Grade.ToUpper());
+                bool bimesterJaCadastrado = registros.Any(x => x.Bimester == t.Bimester);
 
-                validadorNome.Errors.Add(new ValidationFailure("", "Registro não inserido, disciplina já cadastrada."));
+                if (gradeJaCadastrado && bimesterJaCadastrado)
+                {
+                    ValidationResult validadorNome = new ValidationResult();
 
-                return validadorNome;
+                    validadorNome.Errors.Add(new ValidationFailure("", "Registro não inserido, matéria já cadastrada."));
+
+                    return validadorNome;
+                }
             }
 
             return base.Insert(t);
@@ -43,42 +50,25 @@ namespace TestsGenerator.Infra.MateriaModule
 
         public override ValidationResult Update(Materia t)
         {
-            bool nomeJaCadastrado = _dataContext.Materias.Any(x => x.Name.ToUpper() == t.Name.ToUpper());
+            List<Materia> registros = GetRegisters();
+            bool nameJaCadastrado = registros.Any(x => x.Name.ToUpper() == t.Name.ToUpper());
 
-            if (nomeJaCadastrado)
+            if (nameJaCadastrado)
             {
-                ValidationResult validadorNome = new ValidationResult();
+                bool gradeJaCadastrado = registros.Any(x => x.Grade.ToUpper() == t.Grade.ToUpper());
+                bool bimesterJaCadastrado = registros.Any(x => x.Bimester == t.Bimester);
 
-                validadorNome.Errors.Add(new ValidationFailure("", "Registro não inserido, disciplina já cadastrada."));
+                if (gradeJaCadastrado && bimesterJaCadastrado)
+                {
+                    ValidationResult validadorNome = new ValidationResult();
 
-                return validadorNome;
+                    validadorNome.Errors.Add(new ValidationFailure("", "Registro não inserido, matéria já cadastrada."));
+
+                    return validadorNome;
+                }
             }
 
             return base.Update(t);
-            //AbstractValidator<Materia> validator = GetValidator();
-            //
-            //ValidationResult validationResult = validator.Validate(t);
-            //
-            //if (validationResult.IsValid == false)
-            //    return validationResult;
-            //
-            //List<Materia> registers = GetRegisters();
-            //
-            //bool existsName = registers.Select(x => x.Name).Contains(t.Name, StringComparer.OrdinalIgnoreCase);
-            //
-            //if (existsName && t.Id == 0)
-            //    validationResult.Errors.Add(new ValidationFailure("", "Nome já está cadastrado"));
-            //
-            //if (validationResult.IsValid)
-            //{
-            //    registers.ForEach(x =>
-            //    {
-            //        if (x.Id == t.Id)
-            //            x.Update(t);
-            //    });
-            //}
-            //
-            //return validationResult;
         }
     }
 }

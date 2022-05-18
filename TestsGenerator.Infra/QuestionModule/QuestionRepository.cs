@@ -24,6 +24,22 @@ namespace TestsGenerator.Infra.QuestionModule
         {
             return new QuestionValidator();
         }
+        public override ValidationResult Insert(Question q)
+        {
+            List<Question> registros = GetRegisters();
+            bool questionJaCadastrado = registros.Any(x => x.Description.ToUpper() == q.Description.ToUpper());
+
+            if (questionJaCadastrado)
+            {
+                ValidationResult validadorNome = new ValidationResult();
+
+                validadorNome.Errors.Add(new ValidationFailure("", "Registro não inserido, questão já cadastrada."));
+
+                return validadorNome;
+            }
+
+            return base.Insert(q);
+        }
 
         public override ValidationResult Update(Question t)
         {

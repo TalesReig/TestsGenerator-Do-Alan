@@ -47,7 +47,7 @@ namespace TestsGenerator.DisciplineModule
 
             DialogResult dialogResult = screen.ShowDialog();
 
-            //if (dialogResult == DialogResult.OK)
+            if (dialogResult == DialogResult.OK)
                 LoadDisciplines();
         }
 
